@@ -5,6 +5,7 @@ import { existsSync } from 'fs';
 import path from 'path';
 
 const testDir = defineBddConfig({
+	importTestFrom: 'tests/utils/fixtures.ts',
 	features: 'tests/features/**/*.feature',
 	steps: 'tests/features/**/*.stepdefinitions.ts',
 });
@@ -16,6 +17,8 @@ if(existsSync(envPath)){
 
 export default defineConfig({
 	testDir,
+	globalSetup: path.resolve(__dirname, 'global-setup.ts'),
+	globalTeardown: path.resolve(__dirname,'global-teardown.ts'),
 	reporter: [cucumberReporter('html', { outputFile: 'cucumber-report/report.html' })],
 	projects: [
 		{
