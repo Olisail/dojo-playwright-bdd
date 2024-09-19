@@ -1,7 +1,6 @@
 name: test
 
-on:
-  push:
+on: [push, pull_request]
 
 jobs:
   test:
@@ -11,9 +10,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+
       - run: npm ci
-      - run: npx playwright install --with-deps
+      #- run: npx playwright install --with-deps
+
       - run: npm test
+        env:
+            DUENDE_USERNAME: ${{ secrets.DUENDE_USERNAME }}
+            DUENDE_PASSWORD: ${{ secrets.DUENDE_PASSWORD }}
+
       - uses: actions/upload-artifact@v3
         if: always()
         with:
